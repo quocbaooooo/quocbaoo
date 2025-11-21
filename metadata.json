@@ -1,0 +1,5 @@
+{
+  "name": "QuizMe – Tạo đề, làm bài, học lại",
+  "description": "An application to create, take, and review quizzes. Users can input questions of various types, organize them by subject and chapter, take randomized or topic-specific quizzes, and get AI-powered explanations for incorrect answers.",
+  "requestFramePermissions": []
+}
