@@ -1,6 +1,27 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import type { Question } from '../types';
 
+// services/generative.ts  (ví dụ)
+export async function callModel(prompt: string) {
+  const payload = {
+    contents: [ { parts: [{ text: prompt }] } ]
+  };
+
+  const res = await fetch('/api/proxy', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error('API error: ' + res.status + ' - ' + text);
+  }
+  // nếu API trả JSON:
+  return res.json();
+}
+
+
 if (!process.env.API_KEY) {
   // This is a placeholder for development. In a real environment, the key would be set.
   // We check here to avoid runtime errors if the key is missing.
