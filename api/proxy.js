@@ -1,17 +1,22 @@
-// api/proxy.js  (ES module)
+// api/proxy.js
 import fetch from 'node-fetch';
 
 export default async function handler(req, res) {
   try {
-    if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
+    if (req.method !== 'POST') {
+      res.setHeader('Allow', 'POST');
+      return res.status(405).json({ error: 'Method Not Allowed' });
+    }
 
     const API_ENDPOINT = process.env.AI_ENDPOINT;
     const API_KEY = process.env.AI_API_KEY;
+
     if (!API_ENDPOINT || !API_KEY) {
-      return res.status(500).json({ error: 'API endpoint or key not configured' });
+      return res.status(500).json({ error: 'API endpoint or API key not configured' });
     }
 
-    const payload = req.body; // frontend gửi body JSON đúng format API
+    const payload = req.body || {};
+
     const r = await fetch(API_ENDPOINT, {
       method: 'POST',
       headers: {
